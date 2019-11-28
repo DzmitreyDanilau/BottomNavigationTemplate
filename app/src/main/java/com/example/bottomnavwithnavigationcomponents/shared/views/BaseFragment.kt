@@ -1,6 +1,5 @@
 package com.example.bottomnavwithnavigationcomponents.shared.views
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +10,6 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.navigateUp
-import com.example.bottomnavwithnavigationcomponents.R
 import com.example.bottomnavwithnavigationcomponents.shared.utils.rootDestinations
 
 class BaseFragment : Fragment() {
@@ -21,7 +19,6 @@ class BaseFragment : Fragment() {
     private var toolbarId: Int = -1
     private var navHostId: Int = -1
     private val appBarConfig = AppBarConfiguration(rootDestinations)
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +41,6 @@ class BaseFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-
         // return early if no arguments were parsed
         if (toolbarId == defaultInt || navHostId == defaultInt) return
         // find navController using navHostFragment
@@ -59,6 +55,15 @@ class BaseFragment : Fragment() {
         return requireActivity()
             .findNavController(navHostId)
             .navigateUp(appBarConfig)
+    }
+
+    fun popToRoot() {
+        val navController =
+            requireActivity().findNavController(navHostId)
+        // navigate to the start destination
+        navController.popBackStack(
+            navController.graph.startDestination, false
+        )
     }
 
 

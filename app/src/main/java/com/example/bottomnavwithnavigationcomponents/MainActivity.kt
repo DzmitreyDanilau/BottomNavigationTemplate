@@ -12,7 +12,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
 class MainActivity : AppCompatActivity(), ViewPager.OnPageChangeListener,
-    BottomNavigationView.OnNavigationItemSelectedListener {
+    BottomNavigationView.OnNavigationItemSelectedListener,
+    BottomNavigationView.OnNavigationItemReselectedListener {
 
     private val backStack = Stack<Int>()
     private val indexToPage = mapOf(0 to R.id.home, 1 to R.id.library, 2 to R.id.settings)
@@ -36,18 +37,16 @@ class MainActivity : AppCompatActivity(), ViewPager.OnPageChangeListener,
         )
     )
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        // check deeplink only after viewPager is setup
-//        main_pager.post(this::checkDeepLink)
         // force viewPager to create all fragments
         main_pager.offscreenPageLimit = fragments.size
         // setup main view pager
         main_pager.addOnPageChangeListener(this)
         main_pager.adapter = ViewPagerAdapter()
         bottom_nav.setOnNavigationItemSelectedListener(this)
+        bottom_nav.setOnNavigationItemReselectedListener(this)
         if (backStack.isEmpty()) backStack.push(0)
     }
 
@@ -63,14 +62,12 @@ class MainActivity : AppCompatActivity(), ViewPager.OnPageChangeListener,
                 backStack.pop()
                 // set the next item in stack as current
                 main_pager.currentItem = backStack.peek()
-
             } else super.onBackPressed()
         }
     }
 
     override fun onPageScrollStateChanged(state: Int) {}
     override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
-
     override fun onPageSelected(page: Int) {
         val itemId = indexToPage[page] ?: R.id.home
         if (bottom_nav.selectedItemId != itemId)
@@ -88,13 +85,11 @@ class MainActivity : AppCompatActivity(), ViewPager.OnPageChangeListener,
         backStack.push(position)
     }
 
-//    private fun checkDeepLink() {
-//        fragments.forEachIndexed { index, fragment ->
-//            val hasDeepLink = fragment.handleDeepLink(intent)
-//            if (hasDeepLink) setItem(index)
-//        }
-//    }
-
+    override fun onNavigationItemReselected(item: MenuItem) {
+        val position = indexToPage.values.indexOf(item.itemId)
+        val fragment = fragments[position]
+        fragment.popToRoot()
+    }
 
     inner class ViewPagerAdapter : FragmentPagerAdapter(supportFragmentManager) {
         override fun getItem(position: Int): Fragment = fragments[position]
