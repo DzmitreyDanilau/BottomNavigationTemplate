@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_settings"
+    app:startDestination="@id/settings_dest">
+
+    <fragment
+        android:id="@+id/settings_dest"
+        android:name="com.example.bottomnavwithnavigationcomponents.settings.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" >
+        <action
+            android:id="@+id/action_privacy_settings"
+            app:destination="@id/privacyPolicitcsFragment" />
+        <action
+            android:id="@+id/action_profile_settings"
+            app:destination="@id/profileSettingsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/privacyPolicitcsFragment"
+        android:name="com.example.bottomnavwithnavigationcomponents.settings.PrivacyPolicitcsFragment"
+        android:label="fragment_privacy_policitcs"
+        tools:layout="@layout/fragment_privacy_policitcs" />
+    <fragment
+        android:id="@+id/profileSettingsFragment"
+        android:name="com.example.bottomnavwithnavigationcomponents.settings.ProfileSettingsFragment"
+        android:label="fragment_profile_settings"
+        tools:layout="@layout/fragment_profile_settings" />
+</navigation>
