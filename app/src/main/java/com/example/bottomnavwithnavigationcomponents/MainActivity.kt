@@ -19,7 +19,11 @@ class MainActivity : AppCompatActivity(), ViewPager.OnPageChangeListener,
 
     // list of base destination containers
     private val fragments = listOf(
-        BaseFragment.newInstance(R.layout.content_home_base, R.id.toolbar_home, R.id.nav_host_home),
+        BaseFragment.newInstance(
+            R.layout.content_home_base,
+            R.id.toolbar_home,
+            R.id.nav_host_home
+        ),
         BaseFragment.newInstance(
             R.layout.content_library_base,
             R.id.toolbar_library,
@@ -36,7 +40,10 @@ class MainActivity : AppCompatActivity(), ViewPager.OnPageChangeListener,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        // check deeplink only after viewPager is setup
+//        main_pager.post(this::checkDeepLink)
+        // force viewPager to create all fragments
+        main_pager.offscreenPageLimit = fragments.size
         // setup main view pager
         main_pager.addOnPageChangeListener(this)
         main_pager.adapter = ViewPagerAdapter()
@@ -73,12 +80,16 @@ class MainActivity : AppCompatActivity(), ViewPager.OnPageChangeListener,
         backStack.push(position)
     }
 
+//    private fun checkDeepLink() {
+//        fragments.forEachIndexed { index, fragment ->
+//            val hasDeepLink = fragment.handleDeepLink(intent)
+//            if (hasDeepLink) setItem(index)
+//        }
+//    }
+
 
     inner class ViewPagerAdapter : FragmentPagerAdapter(supportFragmentManager) {
-
         override fun getItem(position: Int): Fragment = fragments[position]
-
         override fun getCount(): Int = fragments.size
-
     }
 }

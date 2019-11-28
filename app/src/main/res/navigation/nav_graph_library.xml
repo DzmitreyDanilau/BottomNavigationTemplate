@@ -9,14 +9,19 @@
         android:id="@+id/library_dest"
         android:name="com.example.bottomnavwithnavigationcomponents.library.LibraryFragment"
         android:label="fragment_library"
-        tools:layout="@layout/fragment_library" >
+        tools:layout="@layout/fragment_library">
         <action
             android:id="@+id/action_read"
-            app:destination="@+id/bookFragment" />
+            app:destination="@+id/book_dest" />
     </fragment>
     <fragment
-        android:id="@+id/bookFragment"
+        android:id="@+id/book_dest"
         android:name="com.example.bottomnavwithnavigationcomponents.library.BookFragment"
         android:label="fragment_book"
-        tools:layout="@layout/fragment_book" />
+        tools:layout="@layout/fragment_book">
+        <deepLink
+            android:id="@+id/deepLink"
+            app:uri="www.nav.viewpager.com/{title}/{date}" />
+
+    </fragment>
 </navigation>

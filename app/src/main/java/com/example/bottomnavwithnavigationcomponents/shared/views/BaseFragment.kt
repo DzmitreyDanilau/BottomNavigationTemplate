@@ -1,5 +1,6 @@
 package com.example.bottomnavwithnavigationcomponents.shared.views
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -42,6 +43,7 @@ class BaseFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
+
         // return early if no arguments were parsed
         if (toolbarId == defaultInt || navHostId == defaultInt) return
         // find navController using navHostFragment
@@ -52,8 +54,14 @@ class BaseFragment : Fragment() {
     }
 
 
-    companion object {
+//    fun handleDeepLink(intent: Intent): Boolean {
+//        return requireActivity()
+//            .findNavController(navHostId)
+//            .handleDeepLink(intent)
+//    }
 
+
+    companion object {
         private const val KEY_LAYOUT = "layout_key"
         private const val KEY_NAV_HOST = "nav_host_key"
         private const val KEY_TOOLBAR = "toolbar_key"
@@ -64,7 +72,6 @@ class BaseFragment : Fragment() {
                 putInt(KEY_LAYOUT, layoutRes)
                 putInt(KEY_NAV_HOST, navHostId)
                 putInt(KEY_TOOLBAR, toolbarId)
-
             }
         }
     }
