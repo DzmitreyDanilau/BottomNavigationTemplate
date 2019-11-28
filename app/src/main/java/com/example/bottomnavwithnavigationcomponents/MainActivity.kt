@@ -52,12 +52,20 @@ class MainActivity : AppCompatActivity(), ViewPager.OnPageChangeListener,
     }
 
     override fun onBackPressed() {
-        if (backStack.size > 1) {
-            // remove current position from stack
-            backStack.pop()
-            // set the next item in stack as current
-            main_pager.currentItem = backStack.peek()
-        } else super.onBackPressed()
+        // get the current page
+        val fragment = fragments[main_pager.currentItem]
+        // check if the page navigates up
+        val navigatedUp = fragment.onBackPressed()
+        // if no fragments were popped
+        if (!navigatedUp) {
+            if (backStack.size > 1) {
+                // remove current position from stack
+                backStack.pop()
+                // set the next item in stack as current
+                main_pager.currentItem = backStack.peek()
+
+            } else super.onBackPressed()
+        }
     }
 
     override fun onPageScrollStateChanged(state: Int) {}

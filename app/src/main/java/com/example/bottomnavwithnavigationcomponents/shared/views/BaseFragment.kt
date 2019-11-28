@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
+import androidx.navigation.ui.navigateUp
 import com.example.bottomnavwithnavigationcomponents.R
 import com.example.bottomnavwithnavigationcomponents.shared.utils.rootDestinations
 
@@ -54,11 +55,11 @@ class BaseFragment : Fragment() {
     }
 
 
-//    fun handleDeepLink(intent: Intent): Boolean {
-//        return requireActivity()
-//            .findNavController(navHostId)
-//            .handleDeepLink(intent)
-//    }
+    fun onBackPressed(): Boolean {
+        return requireActivity()
+            .findNavController(navHostId)
+            .navigateUp(appBarConfig)
+    }
 
 
     companion object {
